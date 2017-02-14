@@ -1,2 +1,2 @@
-/TCPServerForm/TCPServerForm/bin/
-/TCPServerForm/TCPServerForm/obj/
+/FtpClient/FtpClient/bin/
+/FtpClient/FtpClient/obj/
