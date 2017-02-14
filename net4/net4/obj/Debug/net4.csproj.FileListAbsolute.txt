@@ -1,0 +1,18 @@
+c:\users\n24-sr1\documents\visual studio 2015\Projects\net4\net4\bin\Debug\net4.exe.config
+c:\users\n24-sr1\documents\visual studio 2015\Projects\net4\net4\bin\Debug\net4.exe
+c:\users\n24-sr1\documents\visual studio 2015\Projects\net4\net4\bin\Debug\net4.pdb
+c:\users\n24-sr1\documents\visual studio 2015\Projects\net4\net4\obj\Debug\net4.csprojResolveAssemblyReference.cache
+c:\users\n24-sr1\documents\visual studio 2015\Projects\net4\net4\obj\Debug\net4.Properties.Resources.resources
+c:\users\n24-sr1\documents\visual studio 2015\Projects\net4\net4\obj\Debug\net4.csproj.GenerateResource.Cache
+c:\users\n24-sr1\documents\visual studio 2015\Projects\net4\net4\obj\Debug\net4.exe
+c:\users\n24-sr1\documents\visual studio 2015\Projects\net4\net4\obj\Debug\net4.pdb
+c:\users\n24-sr1\documents\visual studio 2015\Projects\net4\net4\obj\Debug\net4.FtpForm.resources
+C:\Users\Admin\Desktop\net4\net4\bin\Debug\net4.exe.config
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\net4.exe
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\net4.pdb
+C:\Users\Admin\Desktop\net4\net4\bin\Debug\net4.exe
+C:\Users\Admin\Desktop\net4\net4\bin\Debug\net4.pdb
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\net4.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\net4.FtpForm.resources
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\net4.Properties.Resources.resources
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\net4.csproj.GenerateResource.Cache
