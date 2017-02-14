@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompositePattern.cs" />
     <Compile Include="Ftp.cs" />
     <Compile Include="FtpForm.cs">
       <SubType>Form</SubType>
@@ -54,7 +55,7 @@
       <DependentUpon>FtpForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FtpClient.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Run.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FtpForm.resx">
       <DependentUpon>FtpForm.cs</DependentUpon>

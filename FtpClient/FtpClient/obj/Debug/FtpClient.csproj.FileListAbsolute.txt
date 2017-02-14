@@ -1,0 +1,12 @@
+C:\Users\Admin\Desktop\net4\net4\bin\Debug\net4.exe.config
+C:\Users\Admin\Desktop\net4\net4\bin\Debug\net4.exe
+C:\Users\Admin\Desktop\net4\net4\bin\Debug\net4.pdb
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\FtpClient.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\net4.FtpForm.resources
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\net4.Properties.Resources.resources
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\FtpClient.csproj.GenerateResource.Cache
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\net4.exe
+C:\Users\Admin\Desktop\net4\net4\obj\Debug\net4.pdb
+C:\Users\Admin\Desktop\FtpClient\FtpClient\bin\Debug\net4.exe.config
+C:\Users\Admin\Desktop\FtpClient\FtpClient\obj\Debug\net4.exe
+C:\Users\Admin\Desktop\FtpClient\FtpClient\obj\Debug\net4.pdb

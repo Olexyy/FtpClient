@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using System.IO;
-using FtpClient;
 
-namespace net4
+namespace FtpClient
 {
     public partial class FtpForm : Form
     {
@@ -100,7 +99,8 @@ namespace net4
 
         private void buttonPaste_Click(object sender, EventArgs e)
         {
-            this.Ftp.Upload(null, null);
+            LocalItem localItem = this.listViewLocal.SelectedItems[0].Tag as LocalItem;
+            this.Ftp.Upload(localItem);
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)

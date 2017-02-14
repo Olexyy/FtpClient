@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Threading;
 using System.Net;
 using System.IO;
@@ -9,6 +10,7 @@ using System.IO;
 namespace FtpClient
 {
     public enum FtpItemType { Folder, File, Cwd }
+    public enum LocalItemType { Folder, File, Cwd }
     public enum FtpEventType { ListDirectory, UploadOk, DeleteOk }
     public class FtpEventArgs : EventArgs
     {
@@ -33,40 +35,25 @@ namespace FtpClient
         {
             NetworkCredential credentials = new NetworkCredential(userName, password, domain);
             this.Credentials = credentials;
-            this.Cwd = new FtpCwd("", domain);
+            this.Cwd = new FtpCwd("", domain, null);
             this.Lock = new object();
             this.FtpEvent += eventHandler;
         }
         public Ftp(NetworkCredential credentials, FtpEventHandler eventHandler)
         {
             this.Credentials = credentials;
-            this.Cwd = new FtpCwd(String.Empty, credentials.Domain);
+            this.Cwd = new FtpCwd(String.Empty, credentials.Domain, null);
             this.Lock = new object();
             this.FtpEvent += eventHandler;
-        }
-        private void DefineCwd(string folderName)
-        {
-            switch (folderName)
-            {
-                // TODO: logic on backward
-                case ".":
-                    this.Cwd.Path = this.Credentials.Domain;
-                    break;
-                case "..":
-                    break;
-                default:
-                    this.Cwd.Path = this.Cwd.Path + "/" + folderName;
-                    break;
-            }
         }
         public void GetCwd(FtpItem item = null)
         {
             if (item == null)
-                new Thread(this.GetCwdAsync).Start(this.Cwd.Path);
+                new Thread(this.GetCwdAsync).Start(this.Cwd.FullPath);
             else if (item.Type == FtpItemType.Folder)
             {
-                this.Cwd.Path = item.Path + "/" + item.Name;
-                new Thread(this.GetCwdAsync).Start(this.Cwd.Path);
+                this.Cwd.FullPath = item.FullPath;
+                new Thread(this.GetCwdAsync).Start(this.Cwd.FullPath);
             }
         }
         private void GetCwdAsync(object param)
@@ -103,15 +90,20 @@ namespace FtpClient
             string type = parsed[2];
             string name = parsed[3];
             DateTime datetime = DateTime.Parse(date + " " + time);
-            if(type == DIR)
-                return new FtpFolder(FtpItemType.Folder, name, this.Cwd.Path, datetime);
+            string fullPath = this.Cwd.FullPath + "/" + name;
+            if (type == DIR)
+                return new FtpFolder(name, fullPath, this.Cwd.FullPath, datetime);
             else
-                return new FtpFile(FtpItemType.File, name, this.Cwd.Path, datetime);
+                return new FtpFile(name, fullPath, this.Cwd.FullPath, datetime);
         }
-        public void Upload(string path, string localFile)
+        public void Upload(LocalItem localItem)
         {
-            List<string> param = new List<string>() { this.Cwd.Path + @"/text.txt", @"C:\text.txt" };
-            new Thread(this.UploadAsync).Start(param);
+            if(localItem.Type == LocalItemType.File)
+            {
+                List<string> param = new List<string>() { this.Cwd.FullPath + "/" + localItem.Name, localItem.FullPath };
+                new Thread(this.UploadAsync).Start(param);
+            }
+
         }
         private void UploadAsync(object param)
         {
@@ -134,7 +126,7 @@ namespace FtpClient
                     upload.Write(byteBuffer, 0, bytesSent);
                     bytesSent = local.Read(byteBuffer, 0, BufferSize);
                 }
-                this.GetCwdAsync(this.Cwd.Path);
+                this.GetCwdAsync(this.Cwd.FullPath);
                 FtpEventArgs args = new FtpEventArgs(FtpEventType.UploadOk, this.Cwd);
                 if (this.FtpEvent != null)
                     this.FtpEvent(this, args);
@@ -156,10 +148,7 @@ namespace FtpClient
             if (item == null) ;
             else if (item.Type == FtpItemType.Folder) ;
             else if (item.Type == FtpItemType.File)
-            {
-                string filePath = item.Path + "/" + item.Name;
-                new Thread(this.DeleteAsync).Start(filePath);
-            }
+                new Thread(this.DeleteAsync).Start(item.FullPath);
         }
         private void DeleteAsync(object param)
         {
@@ -171,7 +160,7 @@ namespace FtpClient
                 request.Credentials = new NetworkCredential(this.Credentials.UserName, this.Credentials.Password);
                 request.Method = WebRequestMethods.Ftp.DeleteFile;
                 response = (FtpWebResponse)request.GetResponse();
-                this.GetCwdAsync(this.Cwd.Path);
+                this.GetCwdAsync(this.Cwd.FullPath);
                 FtpEventArgs args = new FtpEventArgs(FtpEventType.DeleteOk, this.Cwd);
                 if (this.FtpEvent != null)
                     this.FtpEvent(this, args);
@@ -188,87 +177,12 @@ namespace FtpClient
         }
 
     }
-    public abstract class FtpItem
-    {
-        public FtpItemType Type { get; private set; }
-        public string Name { get; private set; }
-        public string Path { get; set; }
-        public Nullable<DateTime> Timestamp { get; set; }
-        public FtpItem(FtpItemType type, string name, string path, Nullable<DateTime> timestamp)
-        {
-            this.Type = type;
-            this.Name = name;
-            this.Path = path;
-            this.Timestamp = timestamp;
-        }
-    }
-    public class FtpFolder : FtpItem
-    {
-        public FtpFolder(FtpItemType type, string name, string path, DateTime timestamp) : base(FtpItemType.Folder, name, path,timestamp) { }
-    }
-    public class FtpFile : FtpItem
-    {
-        public string Extension { get; private set; }
-        public FtpFile(FtpItemType type, string name, string path, DateTime timestamp) : base(FtpItemType.File, name, path,timestamp) { }
-    }
-    public class FtpCwd : FtpItem
-    {
-        public List<FtpItem> Items { get; private set; }
-        public FtpCwd(string name, string path) : base(FtpItemType.Cwd, name, path, null)
-        {
-            this.Items = new List<FtpItem>();
-        }
-    }
-
-    public abstract class LocalItem
-    {
-        public FtpItemType Type { get; private set; }
-        public string Name { get; private set; }
-        public string Path { get; set; }
-        public Nullable<DateTime> Timestamp { get; set; }
-        public LocalItem(FtpItemType type, string name, string path, Nullable<DateTime> timestamp)
-        {
-            this.Type = type;
-            this.Name = name;
-            this.Path = path;
-            this.Timestamp = timestamp;
-        }
-    }
-    public class LocalFolder : LocalItem
-    {
-        public LocalFolder(FtpItemType type, string name, string path, DateTime timestamp) : base(FtpItemType.Folder, name, path, timestamp) { }
-    }
-    public class LocalFile : LocalItem
-    {
-        public string Extension { get; private set; }
-        public LocalFile(FtpItemType type, string name, string path, DateTime timestamp) : base(FtpItemType.File, name, path, timestamp) { }
-    }
-    public class LocalCwd : LocalItem
-    {
-        public List<LocalItem> Items { get; private set; }
-        public LocalCwd(string name, string path) : base(FtpItemType.Cwd, name, path, null)
-        {
-            this.Items = new List<LocalItem>();
-            foreach (string itemPathName in Directory.GetDirectories(this.Path))
-            {
-                DateTime timestamp = Directory.GetLastWriteTime(itemPathName);
-                string folderName = System.IO.Path.GetFileName(itemPathName);
-                this.Items.Add(new LocalFolder(FtpItemType.Folder, folderName, this.Path, timestamp));
-            }
-            foreach (string itemPathName in Directory.GetFiles(this.Path))
-            {
-                DateTime timestamp = Directory.GetLastWriteTime(itemPathName);
-                string fileName = System.IO.Path.GetFileName(itemPathName);
-                this.Items.Add(new LocalFile(FtpItemType.File, fileName, this.Path, timestamp));
-            }
-        }
-    }
     public class Local
     {
         public LocalCwd Cwd { get; private set; }
         public Local()
         {
-            this.Cwd = new LocalCwd("", @"C:\");
+            this.Cwd = new LocalCwd("", @"C:\", null);
         }
     }
 }

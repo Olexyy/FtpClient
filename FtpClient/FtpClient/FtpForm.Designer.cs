@@ -1,4 +1,4 @@
-﻿namespace net4
+﻿namespace FtpClient
 {
     partial class FtpForm
     {
@@ -53,11 +53,11 @@
             // columnFtpFileName
             // 
             this.columnFtpFileName.Text = "Details";
-            this.columnFtpFileName.Width = 309;
+            this.columnFtpFileName.Width = 369;
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(12, 291);
+            this.buttonCopy.Location = new System.Drawing.Point(220, 305);
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(75, 23);
             this.buttonCopy.TabIndex = 1;
@@ -67,7 +67,7 @@
             // 
             // buttonPaste
             // 
-            this.buttonPaste.Location = new System.Drawing.Point(105, 291);
+            this.buttonPaste.Location = new System.Drawing.Point(327, 305);
             this.buttonPaste.Name = "buttonPaste";
             this.buttonPaste.Size = new System.Drawing.Size(75, 23);
             this.buttonPaste.TabIndex = 2;
@@ -77,7 +77,7 @@
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Location = new System.Drawing.Point(202, 291);
+            this.buttonDelete.Location = new System.Drawing.Point(424, 305);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(75, 23);
             this.buttonDelete.TabIndex = 3;
@@ -87,7 +87,7 @@
             // 
             // buttonRefresh
             // 
-            this.buttonRefresh.Location = new System.Drawing.Point(301, 291);
+            this.buttonRefresh.Location = new System.Drawing.Point(524, 305);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(75, 23);
             this.buttonRefresh.TabIndex = 4;
@@ -109,7 +109,7 @@
             // columnFileName
             // 
             this.columnFileName.Text = "Details";
-            this.columnFileName.Width = 322;
+            this.columnFileName.Width = 376;
             // 
             // FtpForm
             // 
