@@ -1,2 +1,0 @@
-FtpClient/FtpClient/bin/
-FtpClient/FtpClient/obj/
