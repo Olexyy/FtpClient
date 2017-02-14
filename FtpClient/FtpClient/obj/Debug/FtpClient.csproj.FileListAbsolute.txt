@@ -13,3 +13,9 @@ C:\Users\Admin\Desktop\FtpClient\FtpClient\obj\Debug\net4.pdb
 Z:\I\Git\GitRepo\FtpClient\FtpClient\FtpClient\bin\Debug\net4.exe.config
 Z:\I\Git\GitRepo\FtpClient\FtpClient\FtpClient\obj\Debug\net4.exe
 Z:\I\Git\GitRepo\FtpClient\FtpClient\FtpClient\obj\Debug\net4.pdb
+Z:\I\Git\GitRepo\FtpClient\FtpClient\FtpClient\bin\Debug\net4.exe
+Z:\I\Git\GitRepo\FtpClient\FtpClient\FtpClient\bin\Debug\net4.pdb
+Z:\I\Git\GitRepo\FtpClient\FtpClient\FtpClient\obj\Debug\FtpClient.csprojResolveAssemblyReference.cache
+Z:\I\Git\GitRepo\FtpClient\FtpClient\FtpClient\obj\Debug\FtpClient.FtpForm.resources
+Z:\I\Git\GitRepo\FtpClient\FtpClient\FtpClient\obj\Debug\net4.Properties.Resources.resources
+Z:\I\Git\GitRepo\FtpClient\FtpClient\FtpClient\obj\Debug\FtpClient.csproj.GenerateResource.Cache

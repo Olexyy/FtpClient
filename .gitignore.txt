@@ -1,2 +1,2 @@
-/FtpClient/FtpClient/bin/
-/FtpClient/FtpClient/obj/
+FtpClient/FtpClient/bin/
+FtpClient/FtpClient/obj/
