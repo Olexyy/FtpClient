@@ -9,8 +9,6 @@ using System.IO;
 
 namespace FtpClient
 {
-    public enum FtpItemType { Folder, File, Cwd }
-    public enum LocalItemType { Folder, File, Cwd }
     public enum FtpEventType { ListDirectory, UploadOk, DeleteOk }
     public class FtpEventArgs : EventArgs
     {

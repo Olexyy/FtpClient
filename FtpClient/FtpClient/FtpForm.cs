@@ -14,18 +14,18 @@ namespace FtpClient
 {
     public partial class FtpForm : Form
     {
-        private string baseAddress = @"ftp://testforfree.somee.com";
-        private string pass = "1qaz!QAZ";
-        private string user = "inua";
-        private string cwd;
+        //private string baseAddress = @"ftp://testforfree.somee.com";
+        //private string pass = "1qaz!QAZ";
+       // private string user = "inua";
+        //private string cwd;
         private Ftp Ftp { get; set; }
         private Local Local { get; set; }
 
         public FtpForm()
         {
             InitializeComponent();
-            this.cwd = this.baseAddress;
-            this.Ftp = new Ftp(this.baseAddress, this.user, this.pass, this.FtpEventHandler);
+            //this.cwd = this.baseAddress;
+            this.Ftp = new Ftp(@"ftp://"+this.textBoxHost.Text.Trim(), this.textBoxUserName.Text.Trim(), this.textBoxPassword.Text.Trim(), this.FtpEventHandler);
             this.Local = new Local();
             foreach (LocalItem item in this.Local.Cwd.Items)
             {
@@ -35,7 +35,7 @@ namespace FtpClient
             }
         }
 
-        public void ReadDirectory(string path)
+        /*public void ReadDirectory(string path)
         {
             FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(path);
             request.Credentials = new NetworkCredential(this.user, this.pass);
@@ -48,20 +48,20 @@ namespace FtpClient
                 ListViewItem line = new ListViewItem(reader.ReadLine());
                 this.listView.Items.Add(line);
             }
-        }
+        }*/
 
-        public void DeleteFile(string path)
+        /*public void DeleteFile(string path)
         {
-            path = this.cwd + @"/text.txt";
+            path = this.cwd + @" / text.txt";
  
             FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(path);
             request.Credentials = new NetworkCredential(this.user, this.pass);
             request.Method = WebRequestMethods.Ftp.DeleteFile;
             var response = (FtpWebResponse)request.GetResponse();
             response.Close();
-        }
+        }*/
 
-        public void AddFile(string path, string localFile)
+        /*public void AddFile(string path, string localFile)
         {
             path = this.cwd + @"/text.txt";
             localFile = @"D:\text.txt";
@@ -71,13 +71,12 @@ namespace FtpClient
             request.Credentials = new NetworkCredential(this.user, this.pass);
             request.Method = WebRequestMethods.Ftp.UploadFile;
             Stream push = request.GetRequestStream();
-            /* Open a File Stream to Read the File for Upload */
+
             FileStream localFileStream = File.Open(localFile, FileMode.Open);
-            /* Buffer for the Downloaded Data */
+
             byte[] byteBuffer = new byte[bufferSize];
             int bytesSent = localFileStream.Read(byteBuffer, 0, bufferSize);
-            /* Upload the File by Sending the Buffered Data Until the Transfer is Complete
-            */
+
             try
             {
                 while (bytesSent != 0)
@@ -87,7 +86,7 @@ namespace FtpClient
                 }
             }
             finally { push.Close(); localFileStream.Close(); }
-        }
+        }*/
 
         private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
@@ -120,6 +119,7 @@ namespace FtpClient
             {
                 this.Invoke(new Action(() => {
                     this.listView.Items.Clear();
+                    this.textBoxCwdRemote.Text = args.Cwd.FullPath;
                     args.Cwd.Items.ForEach(i => { this.AddItem(i); });
                 }));
             }
@@ -130,8 +130,7 @@ namespace FtpClient
             listViewItem.Tag = item;
             this.listView.Items.Add(listViewItem);
         }
-
-        private void buttonRefresh_Click(object sender, EventArgs e)
+        private void buttonConnect_Click(object sender, EventArgs e)
         {
             this.Ftp.GetCwd();
         }

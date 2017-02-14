@@ -33,9 +33,22 @@
             this.buttonCopy = new System.Windows.Forms.Button();
             this.buttonPaste = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
-            this.buttonRefresh = new System.Windows.Forms.Button();
+            this.buttonConnect = new System.Windows.Forms.Button();
             this.listViewLocal = new System.Windows.Forms.ListView();
             this.columnFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.groupBoxCredentials = new System.Windows.Forms.GroupBox();
+            this.labelPassword = new System.Windows.Forms.Label();
+            this.labelUserName = new System.Windows.Forms.Label();
+            this.labelHost = new System.Windows.Forms.Label();
+            this.textBoxPassword = new System.Windows.Forms.TextBox();
+            this.textBoxUserName = new System.Windows.Forms.TextBox();
+            this.textBoxHost = new System.Windows.Forms.TextBox();
+            this.textBoxCwdRemote = new System.Windows.Forms.TextBox();
+            this.textBoxCwdLocal = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.groupBoxCredentials.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // listView
@@ -44,7 +57,7 @@
             this.columnFtpFileName});
             this.listView.Location = new System.Drawing.Point(12, 12);
             this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(373, 258);
+            this.listView.Size = new System.Drawing.Size(373, 223);
             this.listView.TabIndex = 0;
             this.listView.UseCompatibleStateImageBehavior = false;
             this.listView.View = System.Windows.Forms.View.Details;
@@ -52,48 +65,48 @@
             // 
             // columnFtpFileName
             // 
-            this.columnFtpFileName.Text = "Details";
-            this.columnFtpFileName.Width = 369;
+            this.columnFtpFileName.Text = "Remote:";
+            this.columnFtpFileName.Width = 346;
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(220, 305);
+            this.buttonCopy.Location = new System.Drawing.Point(188, 76);
             this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(75, 23);
+            this.buttonCopy.Size = new System.Drawing.Size(97, 23);
             this.buttonCopy.TabIndex = 1;
-            this.buttonCopy.Text = "Copy";
+            this.buttonCopy.Text = "Copy to local";
             this.buttonCopy.UseVisualStyleBackColor = true;
             this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
             // 
             // buttonPaste
             // 
-            this.buttonPaste.Location = new System.Drawing.Point(327, 305);
+            this.buttonPaste.Location = new System.Drawing.Point(188, 47);
             this.buttonPaste.Name = "buttonPaste";
-            this.buttonPaste.Size = new System.Drawing.Size(75, 23);
+            this.buttonPaste.Size = new System.Drawing.Size(97, 23);
             this.buttonPaste.TabIndex = 2;
-            this.buttonPaste.Text = "Paste";
+            this.buttonPaste.Text = "Copy to remote";
             this.buttonPaste.UseVisualStyleBackColor = true;
             this.buttonPaste.Click += new System.EventHandler(this.buttonPaste_Click);
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Location = new System.Drawing.Point(424, 305);
+            this.buttonDelete.Location = new System.Drawing.Point(188, 19);
             this.buttonDelete.Name = "buttonDelete";
-            this.buttonDelete.Size = new System.Drawing.Size(75, 23);
+            this.buttonDelete.Size = new System.Drawing.Size(97, 23);
             this.buttonDelete.TabIndex = 3;
-            this.buttonDelete.Text = "Delete";
+            this.buttonDelete.Text = "Delete on remote";
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
-            // buttonRefresh
+            // buttonConnect
             // 
-            this.buttonRefresh.Location = new System.Drawing.Point(524, 305);
-            this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(75, 23);
-            this.buttonRefresh.TabIndex = 4;
-            this.buttonRefresh.Text = "Refresh";
-            this.buttonRefresh.UseVisualStyleBackColor = true;
-            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+            this.buttonConnect.Location = new System.Drawing.Point(20, 22);
+            this.buttonConnect.Name = "buttonConnect";
+            this.buttonConnect.Size = new System.Drawing.Size(75, 23);
+            this.buttonConnect.TabIndex = 4;
+            this.buttonConnect.Text = "Connect";
+            this.buttonConnect.UseVisualStyleBackColor = true;
+            this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
             // 
             // listViewLocal
             // 
@@ -101,30 +114,143 @@
             this.columnFileName});
             this.listViewLocal.Location = new System.Drawing.Point(392, 12);
             this.listViewLocal.Name = "listViewLocal";
-            this.listViewLocal.Size = new System.Drawing.Size(380, 258);
+            this.listViewLocal.Size = new System.Drawing.Size(373, 223);
             this.listViewLocal.TabIndex = 5;
             this.listViewLocal.UseCompatibleStateImageBehavior = false;
             this.listViewLocal.View = System.Windows.Forms.View.Details;
             // 
             // columnFileName
             // 
-            this.columnFileName.Text = "Details";
-            this.columnFileName.Width = 376;
+            this.columnFileName.Text = "Local:";
+            this.columnFileName.Width = 345;
+            // 
+            // groupBoxCredentials
+            // 
+            this.groupBoxCredentials.Controls.Add(this.labelPassword);
+            this.groupBoxCredentials.Controls.Add(this.labelUserName);
+            this.groupBoxCredentials.Controls.Add(this.labelHost);
+            this.groupBoxCredentials.Controls.Add(this.textBoxPassword);
+            this.groupBoxCredentials.Controls.Add(this.textBoxUserName);
+            this.groupBoxCredentials.Controls.Add(this.textBoxHost);
+            this.groupBoxCredentials.Location = new System.Drawing.Point(12, 261);
+            this.groupBoxCredentials.Name = "groupBoxCredentials";
+            this.groupBoxCredentials.Size = new System.Drawing.Size(373, 100);
+            this.groupBoxCredentials.TabIndex = 6;
+            this.groupBoxCredentials.TabStop = false;
+            this.groupBoxCredentials.Text = "Credentials";
+            // 
+            // labelPassword
+            // 
+            this.labelPassword.AutoSize = true;
+            this.labelPassword.Enabled = false;
+            this.labelPassword.Location = new System.Drawing.Point(23, 73);
+            this.labelPassword.Name = "labelPassword";
+            this.labelPassword.Size = new System.Drawing.Size(56, 13);
+            this.labelPassword.TabIndex = 5;
+            this.labelPassword.Text = "Password:";
+            // 
+            // labelUserName
+            // 
+            this.labelUserName.AutoSize = true;
+            this.labelUserName.Enabled = false;
+            this.labelUserName.Location = new System.Drawing.Point(23, 47);
+            this.labelUserName.Name = "labelUserName";
+            this.labelUserName.Size = new System.Drawing.Size(61, 13);
+            this.labelUserName.TabIndex = 4;
+            this.labelUserName.Text = "User name:";
+            // 
+            // labelHost
+            // 
+            this.labelHost.AutoSize = true;
+            this.labelHost.Enabled = false;
+            this.labelHost.Location = new System.Drawing.Point(23, 22);
+            this.labelHost.Name = "labelHost";
+            this.labelHost.Size = new System.Drawing.Size(90, 13);
+            this.labelHost.TabIndex = 3;
+            this.labelHost.Text = "Host:           ftp://";
+            // 
+            // textBoxPassword
+            // 
+            this.textBoxPassword.Location = new System.Drawing.Point(111, 70);
+            this.textBoxPassword.Name = "textBoxPassword";
+            this.textBoxPassword.PasswordChar = '*';
+            this.textBoxPassword.Size = new System.Drawing.Size(236, 20);
+            this.textBoxPassword.TabIndex = 2;
+            this.textBoxPassword.Text = "1qaz!QAZ";
+            // 
+            // textBoxUserName
+            // 
+            this.textBoxUserName.Location = new System.Drawing.Point(111, 44);
+            this.textBoxUserName.Name = "textBoxUserName";
+            this.textBoxUserName.Size = new System.Drawing.Size(236, 20);
+            this.textBoxUserName.TabIndex = 1;
+            this.textBoxUserName.Text = "inua";
+            // 
+            // textBoxHost
+            // 
+            this.textBoxHost.Location = new System.Drawing.Point(111, 19);
+            this.textBoxHost.Name = "textBoxHost";
+            this.textBoxHost.Size = new System.Drawing.Size(236, 20);
+            this.textBoxHost.TabIndex = 0;
+            this.textBoxHost.Text = "testforfree.somee.com";
+            // 
+            // textBoxCwdRemote
+            // 
+            this.textBoxCwdRemote.Location = new System.Drawing.Point(12, 241);
+            this.textBoxCwdRemote.Name = "textBoxCwdRemote";
+            this.textBoxCwdRemote.Size = new System.Drawing.Size(373, 20);
+            this.textBoxCwdRemote.TabIndex = 7;
+            // 
+            // textBoxCwdLocal
+            // 
+            this.textBoxCwdLocal.Location = new System.Drawing.Point(392, 241);
+            this.textBoxCwdLocal.Name = "textBoxCwdLocal";
+            this.textBoxCwdLocal.Size = new System.Drawing.Size(373, 20);
+            this.textBoxCwdLocal.TabIndex = 8;
+            this.textBoxCwdLocal.Text = "C:\\\\";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.buttonCopy);
+            this.groupBox1.Controls.Add(this.buttonPaste);
+            this.groupBox1.Controls.Add(this.buttonConnect);
+            this.groupBox1.Controls.Add(this.buttonDelete);
+            this.groupBox1.Location = new System.Drawing.Point(392, 261);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(373, 100);
+            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Actions";
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Location = new System.Drawing.Point(0, 368);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(777, 22);
+            this.statusStrip1.TabIndex = 10;
+            this.statusStrip1.Text = "statusStrip";
             // 
             // FtpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 340);
+            this.ClientSize = new System.Drawing.Size(777, 390);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.textBoxCwdLocal);
+            this.Controls.Add(this.textBoxCwdRemote);
+            this.Controls.Add(this.groupBoxCredentials);
             this.Controls.Add(this.listViewLocal);
-            this.Controls.Add(this.buttonRefresh);
-            this.Controls.Add(this.buttonDelete);
-            this.Controls.Add(this.buttonPaste);
-            this.Controls.Add(this.buttonCopy);
             this.Controls.Add(this.listView);
+            this.Controls.Add(this.groupBox1);
+            this.MaximizeBox = false;
             this.Name = "FtpForm";
-            this.Text = "Form1";
+            this.ShowIcon = false;
+            this.Text = "Ftp Client";
+            this.groupBoxCredentials.ResumeLayout(false);
+            this.groupBoxCredentials.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -135,9 +261,20 @@
         private System.Windows.Forms.Button buttonPaste;
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.ColumnHeader columnFtpFileName;
-        private System.Windows.Forms.Button buttonRefresh;
+        private System.Windows.Forms.Button buttonConnect;
         private System.Windows.Forms.ListView listViewLocal;
         private System.Windows.Forms.ColumnHeader columnFileName;
+        private System.Windows.Forms.GroupBox groupBoxCredentials;
+        private System.Windows.Forms.TextBox textBoxHost;
+        private System.Windows.Forms.TextBox textBoxUserName;
+        private System.Windows.Forms.TextBox textBoxPassword;
+        private System.Windows.Forms.Label labelHost;
+        private System.Windows.Forms.Label labelUserName;
+        private System.Windows.Forms.Label labelPassword;
+        private System.Windows.Forms.TextBox textBoxCwdRemote;
+        private System.Windows.Forms.TextBox textBoxCwdLocal;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.StatusStrip statusStrip1;
     }
 }
 

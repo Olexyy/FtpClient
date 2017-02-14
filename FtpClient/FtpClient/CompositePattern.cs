@@ -9,6 +9,8 @@ using System.IO;
 
 namespace FtpClient
 {
+    public enum FtpItemType { Folder, File, Cwd }
+    public enum LocalItemType { Folder, File, Cwd }
     public abstract class BaseItem
     {
         public string Name { get; private set; }
@@ -49,7 +51,6 @@ namespace FtpClient
             this.Items = new List<FtpItem>();
         }
     }
-
     public abstract class LocalItem : BaseItem
     {
         public LocalItemType Type { get; private set; }
