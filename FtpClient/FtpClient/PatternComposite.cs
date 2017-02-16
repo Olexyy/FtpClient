@@ -35,7 +35,7 @@ namespace FtpClient
     }
     public class FtpFolder : FtpItem
     {
-        public FtpFolder(string name, string fullPath, string root, DateTime timestamp) : base(FtpItemType.Folder, name, fullPath, root, timestamp) { }
+        public FtpFolder(string name, string fullPath, string root, Nullable<DateTime> timestamp) : base(FtpItemType.Folder, name, fullPath, root, timestamp) { }
     }
     public class FtpFile : FtpItem
     {

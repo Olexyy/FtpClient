@@ -1,14 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Net;
-using System.IO;
 
 namespace FtpClient
 {
@@ -63,8 +54,9 @@ namespace FtpClient
                     args.Cwd.Items.ForEach(i => { this.AddItem(i); });
                 }));
             }
-            if(args.Type == FtpEventType.DownloadOk || args.Type == FtpEventType.UploadOk ||
-                args.Type == FtpEventType.DeleteOk)
+            if( args.Type == FtpEventType.DownloadOk || args.Type == FtpEventType.UploadOk ||
+                args.Type == FtpEventType.DeleteFileOk || args.Type == FtpEventType.MakeDirectoryOk ||
+                args.Type == FtpEventType.DeleteFolderOk )
             {
                 this.Invoke(new Action(() => {
                     this.Ftp.GetCwd();
@@ -78,6 +70,16 @@ namespace FtpClient
             this.listViewFtp.Items.Add(listViewItem);
         }
         private void buttonConnect_Click(object sender, EventArgs e)
+        {
+            this.Ftp.GetCwd();
+        }
+
+        private void buttonNewFolder_Click(object sender, EventArgs e)
+        {
+            this.Ftp.NewFolder("New_folder");
+        }
+
+        private void buttonRefresh_Click(object sender, EventArgs e)
         {
             this.Ftp.GetCwd();
         }

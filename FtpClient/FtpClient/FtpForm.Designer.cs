@@ -47,6 +47,8 @@
             this.textBoxCwdLocal = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.buttonNewFolder = new System.Windows.Forms.Button();
+            this.buttonRefresh = new System.Windows.Forms.Button();
             this.groupBoxCredentials.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -70,7 +72,7 @@
             // 
             // buttonDownload
             // 
-            this.buttonDownload.Location = new System.Drawing.Point(270, 63);
+            this.buttonDownload.Location = new System.Drawing.Point(259, 63);
             this.buttonDownload.Name = "buttonDownload";
             this.buttonDownload.Size = new System.Drawing.Size(97, 23);
             this.buttonDownload.TabIndex = 1;
@@ -80,7 +82,7 @@
             // 
             // buttonUpload
             // 
-            this.buttonUpload.Location = new System.Drawing.Point(270, 22);
+            this.buttonUpload.Location = new System.Drawing.Point(259, 22);
             this.buttonUpload.Name = "buttonUpload";
             this.buttonUpload.Size = new System.Drawing.Size(97, 23);
             this.buttonUpload.TabIndex = 2;
@@ -90,11 +92,11 @@
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Location = new System.Drawing.Point(139, 22);
+            this.buttonDelete.Location = new System.Drawing.Point(139, 63);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(97, 23);
             this.buttonDelete.TabIndex = 3;
-            this.buttonDelete.Text = "Delete on remote";
+            this.buttonDelete.Text = "Delete";
             this.buttonDelete.UseVisualStyleBackColor = true;
             this.buttonDelete.Click += new System.EventHandler(this.buttonDelete_Click);
             // 
@@ -102,7 +104,7 @@
             // 
             this.buttonConnect.Location = new System.Drawing.Point(20, 22);
             this.buttonConnect.Name = "buttonConnect";
-            this.buttonConnect.Size = new System.Drawing.Size(75, 23);
+            this.buttonConnect.Size = new System.Drawing.Size(97, 23);
             this.buttonConnect.TabIndex = 4;
             this.buttonConnect.Text = "Connect";
             this.buttonConnect.UseVisualStyleBackColor = true;
@@ -211,6 +213,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.buttonRefresh);
+            this.groupBox1.Controls.Add(this.buttonNewFolder);
             this.groupBox1.Controls.Add(this.buttonDownload);
             this.groupBox1.Controls.Add(this.buttonUpload);
             this.groupBox1.Controls.Add(this.buttonConnect);
@@ -229,6 +233,26 @@
             this.statusStrip1.Size = new System.Drawing.Size(777, 22);
             this.statusStrip1.TabIndex = 10;
             this.statusStrip1.Text = "statusStrip";
+            // 
+            // buttonNewFolder
+            // 
+            this.buttonNewFolder.Location = new System.Drawing.Point(139, 22);
+            this.buttonNewFolder.Name = "buttonNewFolder";
+            this.buttonNewFolder.Size = new System.Drawing.Size(97, 23);
+            this.buttonNewFolder.TabIndex = 5;
+            this.buttonNewFolder.Text = "New folder";
+            this.buttonNewFolder.UseVisualStyleBackColor = true;
+            this.buttonNewFolder.Click += new System.EventHandler(this.buttonNewFolder_Click);
+            // 
+            // buttonRefresh
+            // 
+            this.buttonRefresh.Location = new System.Drawing.Point(20, 63);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(97, 23);
+            this.buttonRefresh.TabIndex = 6;
+            this.buttonRefresh.Text = "Refresh";
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // FtpForm
             // 
@@ -275,6 +299,8 @@
         private System.Windows.Forms.TextBox textBoxCwdLocal;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.Button buttonNewFolder;
+        private System.Windows.Forms.Button buttonRefresh;
     }
 }
 

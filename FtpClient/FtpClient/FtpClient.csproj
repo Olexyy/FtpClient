@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CompositePattern.cs" />
+    <Compile Include="PatternComposite.cs" />
     <Compile Include="Ftp.cs" />
     <Compile Include="FtpForm.cs">
       <SubType>Form</SubType>

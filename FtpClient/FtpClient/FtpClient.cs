@@ -9,15 +9,18 @@ using System.IO;
 
 namespace FtpClient
 {
-    public enum FtpEventType { ListDirectory, UploadOk, DeleteOk, DownloadOk }
+    public enum FtpEventType { Exception, ListDirectory, UploadOk, DeleteFileOk,
+                               DeleteFolderOk, DownloadOk, MakeDirectoryOk, }
     public class FtpEventArgs : EventArgs
     {
         public FtpEventType Type { get; set; }
         public FtpCwd Cwd { get; set; }
-        public FtpEventArgs(FtpEventType type, FtpCwd cwd)
+        public Exception Exception { get; set; }
+        public FtpEventArgs(FtpEventType type, FtpCwd cwd, Exception exception = null)
         {
             this.Type = type;
             this.Cwd = cwd;
+            this.Exception = exception;
         }
     }
     public delegate void FtpEventHandler (object sender, FtpEventArgs args);
@@ -35,6 +38,9 @@ namespace FtpClient
         {
             List<string> parsed = raw.Split(' ').ToList();
             parsed.RemoveAll(i => i == String.Empty);
+            if(parsed.Count > 4) // Handle names with slashes
+                for (int i = 4; i < parsed.Count; i++)
+                    parsed[3] += " " + parsed[i];
             string date = parsed[0];
             string time = parsed[1];
             string type = parsed[2];
@@ -45,6 +51,15 @@ namespace FtpClient
                 return new FtpFolder(name, fullPath, Cwd.FullPath, datetime);
             else
                 return new FtpFile(name, fullPath, Cwd.FullPath, datetime);
+        }
+        public IEnumerable<FtpItem> FtpItemDefault()
+        {
+            List<FtpItem> defaultItems = new List<FtpItem>();
+            if(this.Credentials.Domain != this.Cwd.FullPath)
+                defaultItems.Add(new FtpFolder(".", this.Credentials.Domain, null, null));
+            if(this.Cwd.Root != null && this.Credentials.Domain != this.Cwd.Root)
+                defaultItems.Add(new FtpFolder("..", this.Cwd.Root, this.DefineRoot(this.Cwd.Root), null));
+            return defaultItems;
         }
         public FtpWebRequest FtpRequestNew(string method, string path = null)
         {
@@ -57,6 +72,12 @@ namespace FtpClient
             ftpRequest.UsePassive = true;
             ftpRequest.KeepAlive = true;
             return ftpRequest;
+        }
+        private string DefineRoot(string oldRoot)
+        {
+            List<string> parsed = oldRoot.Split('/').ToList();
+            parsed.RemoveAt(parsed.Count - 1);
+            return String.Join("/", parsed);
         }
     }
     public class Ftp
@@ -86,7 +107,10 @@ namespace FtpClient
         public void GetCwd(FtpItem item = null)
         {
             if (item != null && item.Type == FtpItemType.Folder)
+            {
                 this.Cwd.FullPath = item.FullPath;
+                this.Cwd.Root = item.Root;
+            }
             Task.Run( () => this.GetCwdProcess(this.Cwd.FullPath) );
         }
         private void GetCwdProcess(string cwdPath)
@@ -99,6 +123,7 @@ namespace FtpClient
                 lock (this.Lock)
                 {
                     this.Cwd.Items.Clear();
+                    this.Cwd.Items.AddRange(this.Factory.FtpItemDefault());
                     while (!reader.EndOfStream)
                         this.Cwd.Items.Add(this.Factory.FtpItemNew(reader.ReadLine()));
                 }
@@ -191,18 +216,19 @@ namespace FtpClient
         public void Delete(FtpItem item = null)
         {
             if (item == null) ;
-            else if (item.Type == FtpItemType.Folder) ;
+            else if (item.Type == FtpItemType.Folder)
+              Task.Run(() => this.DeleteFolderProcess(item.FullPath));
             else if (item.Type == FtpItemType.File)
-                Task.Run(() => this.DeleteProcess(item.FullPath));
+              Task.Run(() => this.DeleteFileProcess(item.FullPath));
         }
-        private void DeleteProcess(string ftpPath)
+        private void DeleteFileProcess(string ftpPath)
         {
             FtpWebResponse response = null;
             try
             {
                 FtpWebRequest ftpRequest = this.Factory.FtpRequestNew(WebRequestMethods.Ftp.DeleteFile, ftpPath);
                 response = (FtpWebResponse)ftpRequest.GetResponse();
-                FtpEventArgs args = new FtpEventArgs(FtpEventType.DeleteOk, this.Cwd);
+                FtpEventArgs args = new FtpEventArgs(FtpEventType.DeleteFileOk, this.Cwd);
                 if (this.FtpEvent != null)
                     this.FtpEvent(this, args);
             }
@@ -213,6 +239,53 @@ namespace FtpClient
             finally
             {
                 if(response != null)
+                    response.Close();
+            }
+        }
+        private void DeleteFolderProcess(string ftpPath)
+        {
+            FtpWebResponse response = null;
+            try
+            {
+                FtpWebRequest ftpRequest = this.Factory.FtpRequestNew(WebRequestMethods.Ftp.RemoveDirectory, ftpPath);
+                response = (FtpWebResponse)ftpRequest.GetResponse();
+                FtpEventArgs args = new FtpEventArgs(FtpEventType.DeleteFolderOk, this.Cwd);
+                if (this.FtpEvent != null)
+                    this.FtpEvent(this, args);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Delete fail.", e);
+            }
+            finally
+            {
+                if (response != null)
+                    response.Close();
+            }
+        }
+        public void NewFolder(string name)
+        {
+            string ftpPath = this.Cwd.FullPath + "/" + name;
+            Task.Run(() => this.NewFolderProcess(ftpPath));
+        }
+        private void NewFolderProcess(string ftpPath)
+        {
+            FtpWebResponse response = null;
+            try
+            {
+                FtpWebRequest ftpRequest = this.Factory.FtpRequestNew(WebRequestMethods.Ftp.MakeDirectory, ftpPath);
+                response = (FtpWebResponse)ftpRequest.GetResponse();
+                FtpEventArgs args = new FtpEventArgs(FtpEventType.MakeDirectoryOk, this.Cwd);
+                if (this.FtpEvent != null)
+                    this.FtpEvent(this, args);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Delete fail.", e);
+            }
+            finally
+            {
+                if (response != null)
                     response.Close();
             }
         }
