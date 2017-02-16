@@ -70,7 +70,7 @@
             // 
             // buttonDownload
             // 
-            this.buttonDownload.Location = new System.Drawing.Point(188, 76);
+            this.buttonDownload.Location = new System.Drawing.Point(270, 63);
             this.buttonDownload.Name = "buttonDownload";
             this.buttonDownload.Size = new System.Drawing.Size(97, 23);
             this.buttonDownload.TabIndex = 1;
@@ -80,7 +80,7 @@
             // 
             // buttonUpload
             // 
-            this.buttonUpload.Location = new System.Drawing.Point(188, 47);
+            this.buttonUpload.Location = new System.Drawing.Point(270, 22);
             this.buttonUpload.Name = "buttonUpload";
             this.buttonUpload.Size = new System.Drawing.Size(97, 23);
             this.buttonUpload.TabIndex = 2;
@@ -90,7 +90,7 @@
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Location = new System.Drawing.Point(188, 19);
+            this.buttonDelete.Location = new System.Drawing.Point(139, 22);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(97, 23);
             this.buttonDelete.TabIndex = 3;

@@ -36,6 +36,7 @@ namespace FtpClient
             this.Cwd = new FtpCwd("", domain, null);
             this.Lock = new object();
             this.FtpEvent += eventHandler;
+            ThreadPool.SetMaxThreads(3, 3);
         }
         public Ftp(NetworkCredential credentials, FtpEventHandler eventHandler)
         {
@@ -46,19 +47,14 @@ namespace FtpClient
         }
         public void GetCwd(FtpItem item = null)
         {
-            if (item == null)
-                new Thread(this.GetCwdAsync).Start(this.Cwd.FullPath);
-            else if (item.Type == FtpItemType.Folder)
-            {
+            if (item != null && item.Type == FtpItemType.Folder)
                 this.Cwd.FullPath = item.FullPath;
-                new Thread(this.GetCwdAsync).Start(this.Cwd.FullPath);
-            }
+            Task.Run( () => this.GetCwdProcess(this.Cwd.FullPath) );
         }
-        private void GetCwdAsync(object param)
+        private void GetCwdProcess(string cwdPath)
         {
             try
             {
-                string cwdPath = param as String;
                 FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(cwdPath);
                 request.Credentials = new NetworkCredential(this.Credentials.UserName, this.Credentials.Password);
                 request.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
@@ -68,7 +64,7 @@ namespace FtpClient
                 {
                     this.Cwd.Items.Clear();
                     while (!reader.EndOfStream)
-                        this.Cwd.Items.Add(this.CreateFtpItem(reader.ReadLine()));
+                        this.Cwd.Items.Add(this.Factory(reader.ReadLine()));
                 }
                 FtpEventArgs args = new FtpEventArgs(FtpEventType.ListDirectory, this.Cwd);
                 if (this.FtpEvent != null)
@@ -79,7 +75,7 @@ namespace FtpClient
                 throw new Exception("List directory fail.", e);
             }
         }
-        private FtpItem CreateFtpItem(string raw)
+        private FtpItem Factory(string raw)
         {
             List<string> parsed = raw.Split(' ').ToList();
             parsed.RemoveAll(i => i == String.Empty);
@@ -97,34 +93,26 @@ namespace FtpClient
         public void Upload(LocalItem localItem)
         {
             if(localItem.Type == LocalItemType.File)
-            {
-                List<string> param = new List<string>() { this.Cwd.FullPath + "/" + localItem.Name, localItem.FullPath };
-                new Thread(this.UploadAsync).Start(param);
-            }
-
+                Task.Run(() => this.UploadProcess(this.Cwd.FullPath + "/" + localItem.Name, localItem.FullPath));
         }
-        private void UploadAsync(object param)
+        private void UploadProcess(string ftpPath, string localPath)
         {
             Stream upload = null;
             FileStream local = null;
             try
             {
-                List<string> list = param as List<string>;
-                string path = list.First();
-                string localFile = list.Last();
-                FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(path);
+                FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(ftpPath);
                 request.Credentials = new NetworkCredential(this.Credentials.UserName, this.Credentials.Password);
                 request.Method = WebRequestMethods.Ftp.UploadFile;
                 upload = request.GetRequestStream();
-                local = File.Open(localFile, FileMode.Open);
+                local = File.Open(localPath, FileMode.Open);
                 byte[] byteBuffer = new byte[BufferSize];
                 int bytesSent = local.Read(byteBuffer, 0, BufferSize);
                 while (bytesSent != 0)
                 {
                     upload.Write(byteBuffer, 0, bytesSent);
                     bytesSent = local.Read(byteBuffer, 0, BufferSize);
-                }// this is called in result of request of upload handler
-                //this.GetCwdAsync(this.Cwd.FullPath);
+                }
                 FtpEventArgs args = new FtpEventArgs(FtpEventType.UploadOk, this.Cwd);
                 if (this.FtpEvent != null)
                     this.FtpEvent(this, args);
@@ -143,29 +131,25 @@ namespace FtpClient
         }
         public void Download(FtpItem ftpItem, LocalCwd localCwd, string newName = null)
         {
+            newName = (newName == null) ? ftpItem.Name : newName;
             if (ftpItem.Type == FtpItemType.File)
-            {
-                newName = (newName == null) ? ftpItem.Name : newName;
-                List<string> param = new List<string>() { ftpItem.FullPath, localCwd.FullPath, newName };
-                new Thread(this.DownloadAsync).Start(param);
-            }
-
+                Task.Run(() => this.DownloadProcess(ftpItem.FullPath, localCwd.FullPath, newName));
         }
-        private void DownloadAsync(object param)
+        private void DownloadProcess(string ftpPath, string localCwdPath, string newName)
         {
             Stream download = null;
             FileStream local = null;
             try
             {
-                List<string> list = param as List<string>;
-                string ftpPath = list.First();
-                string localPath = list[1];
-                string newName = list.Last();
-                string localNewPath = Path.Combine(localPath, newName);
+                string localNewPath = Path.Combine(localCwdPath, newName);
                 FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(ftpPath);
                 request.Credentials = new NetworkCredential(this.Credentials.UserName, this.Credentials.Password);
                 request.Method = WebRequestMethods.Ftp.DownloadFile;
-                download = request.GetRequestStream();
+                //request.UseBinary = true;
+                //request.UsePassive = true;
+                //request.KeepAlive = true;
+                FtpWebResponse ftpResponse = (FtpWebResponse)request.GetResponse();
+                download = ftpResponse.GetResponseStream();
                 local = File.Open(localNewPath, FileMode.OpenOrCreate);
                 byte[] byteBuffer = new byte[BufferSize];
                 int bytesRecieve = download.Read(byteBuffer, 0, BufferSize);
@@ -195,19 +179,17 @@ namespace FtpClient
             if (item == null) ;
             else if (item.Type == FtpItemType.Folder) ;
             else if (item.Type == FtpItemType.File)
-                new Thread(this.DeleteAsync).Start(item.FullPath);
+                Task.Run(() => this.DeleteProcess(item.FullPath));
         }
-        private void DeleteAsync(object param)
+        private void DeleteProcess(string path)
         {
             FtpWebResponse response = null;
             try
             {
-                string path = param as string;
                 FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(path);
                 request.Credentials = new NetworkCredential(this.Credentials.UserName, this.Credentials.Password);
                 request.Method = WebRequestMethods.Ftp.DeleteFile;
                 response = (FtpWebResponse)request.GetResponse();
-                this.GetCwdAsync(this.Cwd.FullPath);
                 FtpEventArgs args = new FtpEventArgs(FtpEventType.DeleteOk, this.Cwd);
                 if (this.FtpEvent != null)
                     this.FtpEvent(this, args);
@@ -228,7 +210,7 @@ namespace FtpClient
         public LocalCwd Cwd { get; private set; }
         public Local()
         {
-            this.Cwd = new LocalCwd("", @"C:\", null);
+            this.Cwd = new LocalCwd("", @"C:\local", null);
         }
     }
 }
