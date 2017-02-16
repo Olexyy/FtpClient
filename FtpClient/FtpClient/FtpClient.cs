@@ -9,7 +9,7 @@ using System.IO;
 
 namespace FtpClient
 {
-    public enum FtpEventType { ListDirectory, UploadOk, DeleteOk }
+    public enum FtpEventType { ListDirectory, UploadOk, DeleteOk, DownloadOk }
     public class FtpEventArgs : EventArgs
     {
         public FtpEventType Type { get; set; }
@@ -123,7 +123,7 @@ namespace FtpClient
                 {
                     upload.Write(byteBuffer, 0, bytesSent);
                     bytesSent = local.Read(byteBuffer, 0, BufferSize);
-                }
+                }// change it get cwd should be result of request
                 this.GetCwdAsync(this.Cwd.FullPath);
                 FtpEventArgs args = new FtpEventArgs(FtpEventType.UploadOk, this.Cwd);
                 if (this.FtpEvent != null)
@@ -138,6 +138,55 @@ namespace FtpClient
                 if (upload != null)
                     upload.Close();
                 if(local != null)
+                    local.Close();
+            }
+        }
+        public void Download(FtpItem ftpItem, LocalCwd localCwd, string newName = null)
+        {
+            if (ftpItem.Type == FtpItemType.File)
+            {
+                newName = (newName == null) ? ftpItem.Name : newName;
+                List<string> param = new List<string>() { ftpItem.FullPath, localCwd.FullPath, newName };
+                new Thread(this.UploadAsync).Start(param);
+            }
+
+        }
+        private void DownloadAsync(object param)
+        {
+            Stream download = null;
+            FileStream local = null;
+            try
+            {
+                List<string> list = param as List<string>;
+                string ftpPath = list.First();
+                string localPath = list[1];
+                string newName = list.Last();
+                string localNewPath = Path.Combine(localPath, newName);
+                FtpWebRequest request = (FtpWebRequest)FtpWebRequest.Create(ftpPath);
+                request.Credentials = new NetworkCredential(this.Credentials.UserName, this.Credentials.Password);
+                request.Method = WebRequestMethods.Ftp.DownloadFile;
+                download = request.GetRequestStream();
+                local = File.Open(localNewPath, FileMode.OpenOrCreate);
+                byte[] byteBuffer = new byte[BufferSize];
+                int bytesRecieve = download.Read(byteBuffer, 0, BufferSize);
+                while (bytesRecieve != 0)
+                {
+                    local.Write(byteBuffer, 0, bytesRecieve);
+                    bytesRecieve = download.Read(byteBuffer, 0, BufferSize);
+                }
+                FtpEventArgs args = new FtpEventArgs(FtpEventType.DownloadOk, this.Cwd);
+                if (this.FtpEvent != null)
+                    this.FtpEvent(this, args);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Upload fail.", e);
+            }
+            finally
+            {
+                if (download != null)
+                    download.Close();
+                if (local != null)
                     local.Close();
             }
         }
@@ -173,7 +222,6 @@ namespace FtpClient
                     response.Close();
             }
         }
-
     }
     public class Local
     {

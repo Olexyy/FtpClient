@@ -96,7 +96,7 @@ namespace FtpClient
             this.Ftp.GetCwd(item);
         }
 
-        private void buttonPaste_Click(object sender, EventArgs e)
+        private void buttonUpload_Click(object sender, EventArgs e)
         {
             LocalItem localItem = this.listViewLocal.SelectedItems[0].Tag as LocalItem;
             this.Ftp.Upload(localItem);
@@ -108,7 +108,7 @@ namespace FtpClient
             this.Ftp.Delete(item);
         }
 
-        private void buttonCopy_Click(object sender, EventArgs e)
+        private void buttonDownload_Click(object sender, EventArgs e)
         {
             this.Ftp.GetCwd();
         }

@@ -30,8 +30,8 @@
         {
             this.listView = new System.Windows.Forms.ListView();
             this.columnFtpFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.buttonCopy = new System.Windows.Forms.Button();
-            this.buttonPaste = new System.Windows.Forms.Button();
+            this.buttonDownload = new System.Windows.Forms.Button();
+            this.buttonUpload = new System.Windows.Forms.Button();
             this.buttonDelete = new System.Windows.Forms.Button();
             this.buttonConnect = new System.Windows.Forms.Button();
             this.listViewLocal = new System.Windows.Forms.ListView();
@@ -68,25 +68,25 @@
             this.columnFtpFileName.Text = "Remote:";
             this.columnFtpFileName.Width = 346;
             // 
-            // buttonCopy
+            // buttonDownload
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(188, 76);
-            this.buttonCopy.Name = "buttonCopy";
-            this.buttonCopy.Size = new System.Drawing.Size(97, 23);
-            this.buttonCopy.TabIndex = 1;
-            this.buttonCopy.Text = "Copy to local";
-            this.buttonCopy.UseVisualStyleBackColor = true;
-            this.buttonCopy.Click += new System.EventHandler(this.buttonCopy_Click);
+            this.buttonDownload.Location = new System.Drawing.Point(188, 76);
+            this.buttonDownload.Name = "buttonDownload";
+            this.buttonDownload.Size = new System.Drawing.Size(97, 23);
+            this.buttonDownload.TabIndex = 1;
+            this.buttonDownload.Text = "Download";
+            this.buttonDownload.UseVisualStyleBackColor = true;
+            this.buttonDownload.Click += new System.EventHandler(this.buttonDownload_Click);
             // 
-            // buttonPaste
+            // buttonUpload
             // 
-            this.buttonPaste.Location = new System.Drawing.Point(188, 47);
-            this.buttonPaste.Name = "buttonPaste";
-            this.buttonPaste.Size = new System.Drawing.Size(97, 23);
-            this.buttonPaste.TabIndex = 2;
-            this.buttonPaste.Text = "Copy to remote";
-            this.buttonPaste.UseVisualStyleBackColor = true;
-            this.buttonPaste.Click += new System.EventHandler(this.buttonPaste_Click);
+            this.buttonUpload.Location = new System.Drawing.Point(188, 47);
+            this.buttonUpload.Name = "buttonUpload";
+            this.buttonUpload.Size = new System.Drawing.Size(97, 23);
+            this.buttonUpload.TabIndex = 2;
+            this.buttonUpload.Text = "Upload";
+            this.buttonUpload.UseVisualStyleBackColor = true;
+            this.buttonUpload.Click += new System.EventHandler(this.buttonPaste_Click);
             // 
             // buttonDelete
             // 
@@ -211,8 +211,8 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.buttonCopy);
-            this.groupBox1.Controls.Add(this.buttonPaste);
+            this.groupBox1.Controls.Add(this.buttonDownload);
+            this.groupBox1.Controls.Add(this.buttonUpload);
             this.groupBox1.Controls.Add(this.buttonConnect);
             this.groupBox1.Controls.Add(this.buttonDelete);
             this.groupBox1.Location = new System.Drawing.Point(392, 261);
@@ -257,8 +257,8 @@
         #endregion
 
         private System.Windows.Forms.ListView listView;
-        private System.Windows.Forms.Button buttonCopy;
-        private System.Windows.Forms.Button buttonPaste;
+        private System.Windows.Forms.Button buttonDownload;
+        private System.Windows.Forms.Button buttonUpload;
         private System.Windows.Forms.Button buttonDelete;
         private System.Windows.Forms.ColumnHeader columnFtpFileName;
         private System.Windows.Forms.Button buttonConnect;
