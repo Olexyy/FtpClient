@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.listView = new System.Windows.Forms.ListView();
+            this.listViewFtp = new System.Windows.Forms.ListView();
             this.columnFtpFileName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.buttonDownload = new System.Windows.Forms.Button();
             this.buttonUpload = new System.Windows.Forms.Button();
@@ -51,17 +51,17 @@
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // listView
+            // listViewFtp
             // 
-            this.listView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.listViewFtp.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnFtpFileName});
-            this.listView.Location = new System.Drawing.Point(12, 12);
-            this.listView.Name = "listView";
-            this.listView.Size = new System.Drawing.Size(373, 223);
-            this.listView.TabIndex = 0;
-            this.listView.UseCompatibleStateImageBehavior = false;
-            this.listView.View = System.Windows.Forms.View.Details;
-            this.listView.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
+            this.listViewFtp.Location = new System.Drawing.Point(12, 12);
+            this.listViewFtp.Name = "listViewFtp";
+            this.listViewFtp.Size = new System.Drawing.Size(373, 223);
+            this.listViewFtp.TabIndex = 0;
+            this.listViewFtp.UseCompatibleStateImageBehavior = false;
+            this.listViewFtp.View = System.Windows.Forms.View.Details;
+            this.listViewFtp.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listView_MouseDoubleClick);
             // 
             // columnFtpFileName
             // 
@@ -86,7 +86,7 @@
             this.buttonUpload.TabIndex = 2;
             this.buttonUpload.Text = "Upload";
             this.buttonUpload.UseVisualStyleBackColor = true;
-            this.buttonUpload.Click += new System.EventHandler(this.buttonPaste_Click);
+            this.buttonUpload.Click += new System.EventHandler(this.buttonUpload_Click);
             // 
             // buttonDelete
             // 
@@ -240,7 +240,7 @@
             this.Controls.Add(this.textBoxCwdRemote);
             this.Controls.Add(this.groupBoxCredentials);
             this.Controls.Add(this.listViewLocal);
-            this.Controls.Add(this.listView);
+            this.Controls.Add(this.listViewFtp);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
             this.Name = "FtpForm";
@@ -256,7 +256,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListView listView;
+        private System.Windows.Forms.ListView listViewFtp;
         private System.Windows.Forms.Button buttonDownload;
         private System.Windows.Forms.Button buttonUpload;
         private System.Windows.Forms.Button buttonDelete;

@@ -90,7 +90,7 @@ namespace FtpClient
 
         private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            FtpItem item = this.listView.SelectedItems[0].Tag as FtpItem;
+            FtpItem item = this.listViewFtp.SelectedItems[0].Tag as FtpItem;
             //this.cwd = this.cwd + "/" + itemName;
             //this.ReadDirectory(this.cwd);
             this.Ftp.GetCwd(item);
@@ -104,13 +104,14 @@ namespace FtpClient
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            FtpItem item = this.listView.SelectedItems[0].Tag as FtpItem;
+            FtpItem item = this.listViewFtp.SelectedItems[0].Tag as FtpItem;
             this.Ftp.Delete(item);
         }
 
         private void buttonDownload_Click(object sender, EventArgs e)
         {
-            this.Ftp.GetCwd();
+            FtpItem ftpItem = this.listViewFtp.SelectedItems[0].Tag as FtpItem;
+            this.Ftp.Download(ftpItem, this.Local.Cwd, null);
         }
 
         private void FtpEventHandler(object sender, FtpEventArgs args)
@@ -118,9 +119,15 @@ namespace FtpClient
             if(args.Type == FtpEventType.ListDirectory)
             {
                 this.Invoke(new Action(() => {
-                    this.listView.Items.Clear();
+                    this.listViewFtp.Items.Clear();
                     this.textBoxCwdRemote.Text = args.Cwd.FullPath;
                     args.Cwd.Items.ForEach(i => { this.AddItem(i); });
+                }));
+            }
+            if(args.Type == FtpEventType.DownloadOk || args.Type == FtpEventType.UploadOk)
+            {
+                this.Invoke(new Action(() => {
+                    this.Ftp.GetCwd();
                 }));
             }
         }
@@ -128,7 +135,7 @@ namespace FtpClient
         {
             ListViewItem listViewItem = new ListViewItem(item.Name);
             listViewItem.Tag = item;
-            this.listView.Items.Add(listViewItem);
+            this.listViewFtp.Items.Add(listViewItem);
         }
         private void buttonConnect_Click(object sender, EventArgs e)
         {

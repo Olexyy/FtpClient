@@ -123,8 +123,8 @@ namespace FtpClient
                 {
                     upload.Write(byteBuffer, 0, bytesSent);
                     bytesSent = local.Read(byteBuffer, 0, BufferSize);
-                }// change it get cwd should be result of request
-                this.GetCwdAsync(this.Cwd.FullPath);
+                }// this is called in result of request of upload handler
+                //this.GetCwdAsync(this.Cwd.FullPath);
                 FtpEventArgs args = new FtpEventArgs(FtpEventType.UploadOk, this.Cwd);
                 if (this.FtpEvent != null)
                     this.FtpEvent(this, args);
@@ -147,7 +147,7 @@ namespace FtpClient
             {
                 newName = (newName == null) ? ftpItem.Name : newName;
                 List<string> param = new List<string>() { ftpItem.FullPath, localCwd.FullPath, newName };
-                new Thread(this.UploadAsync).Start(param);
+                new Thread(this.DownloadAsync).Start(param);
             }
 
         }
