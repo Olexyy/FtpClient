@@ -81,13 +81,13 @@ namespace FtpClient
             foreach (string itemFullPath in Directory.GetDirectories(this.FullPath))
             {
                 DateTime timestamp = Directory.GetLastWriteTime(itemFullPath);
-                string folderName = System.IO.Path.GetFileName(itemFullPath);
+                string folderName = Path.GetFileName(itemFullPath);
                 this.Items.Add(new LocalFolder(folderName, itemFullPath, this.FullPath, timestamp));
             }
             foreach (string itemFullPath in Directory.GetFiles(this.FullPath))
             {
                 DateTime timestamp = Directory.GetLastWriteTime(itemFullPath);
-                string fileName = System.IO.Path.GetFileName(itemFullPath);
+                string fileName = Path.GetFileName(itemFullPath);
                 this.Items.Add(new LocalFile(fileName, itemFullPath, this.FullPath, timestamp));
             }
         }
