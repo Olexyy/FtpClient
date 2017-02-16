@@ -63,7 +63,8 @@ namespace FtpClient
                     args.Cwd.Items.ForEach(i => { this.AddItem(i); });
                 }));
             }
-            if(args.Type == FtpEventType.DownloadOk || args.Type == FtpEventType.UploadOk)
+            if(args.Type == FtpEventType.DownloadOk || args.Type == FtpEventType.UploadOk ||
+                args.Type == FtpEventType.DeleteOk)
             {
                 this.Invoke(new Action(() => {
                     this.Ftp.GetCwd();
