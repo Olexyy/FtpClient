@@ -109,6 +109,34 @@ namespace FtpClient
             if(this.LocalEvent!= null)
                 this.LocalEvent(this, new LocalEventArgs(LocalEventType.ListDirectory, this));
         }
-
+        public void DeleteItem(LocalItem localItem)
+        {
+            try
+            {
+                if(localItem.Type == LocalItemType.Folder)
+                    Directory.Delete(localItem.FullPath, true);
+                else
+                    File.Delete(localItem.FullPath);
+                this.GetChildren();
+                if (this.LocalEvent != null)
+                    if (localItem.Type == LocalItemType.Folder)
+                        this.LocalEvent(this, new LocalEventArgs(LocalEventType.DeleteFolderOk, this));
+                    else
+                        this.LocalEvent(this, new LocalEventArgs(LocalEventType.DeleteFileOk, this));
+            }
+            finally { }
+        }
+        public void AddFolder(string name = null)
+        {
+            try
+            {
+                name = (name == null) ? "New_folder" : name;
+                Directory.CreateDirectory(Path.Combine(this.FullPath, name));
+                this.GetChildren();
+                if (this.LocalEvent != null)
+                    this.LocalEvent(this, new LocalEventArgs(LocalEventType.MakeDirectoryOk, this));
+            }
+            finally { }
+        }
     }
 }

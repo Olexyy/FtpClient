@@ -12,34 +12,46 @@ namespace FtpClient
         {
             InitializeComponent();
             this.Ftp = new Ftp(@"ftp://"+this.textBoxHost.Text.Trim(), this.textBoxUserName.Text.Trim(), this.textBoxPassword.Text.Trim(), this.FtpEventHandler);
-            
         }
         private void listView_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            FtpItem item = this.listViewFtp.SelectedItems[0].Tag as FtpItem;
-            this.Ftp.GetCwd(item);
+            if (this.listViewFtp.SelectedItems.Count == 1)
+            {
+                FtpItem item = this.listViewFtp.SelectedItems[0].Tag as FtpItem;
+                this.Ftp.GetCwd(item);
+            }
         }
 
         private void buttonUpload_Click(object sender, EventArgs e)
         {
-            LocalItem localItem = this.listViewLocal.SelectedItems[0].Tag as LocalItem;
-            this.Ftp.Upload(localItem);
+            if (this.listViewLocal.SelectedItems.Count == 1)
+            {
+                LocalItem localItem = this.listViewLocal.SelectedItems[0].Tag as LocalItem;
+                this.Ftp.Upload(localItem);
+            }
         }
 
         private void buttonDelete_Click(object sender, EventArgs e)
         {
-            FtpItem item = this.listViewFtp.SelectedItems[0].Tag as FtpItem;
-            this.Ftp.Delete(item);
+            if (this.listViewFtp.SelectedItems.Count == 1)
+            {
+                FtpItem item = this.listViewFtp.SelectedItems[0].Tag as FtpItem;
+                this.Ftp.Delete(item);
+            } 
         }
 
         private void buttonDownload_Click(object sender, EventArgs e)
         {
-            FtpItem ftpItem = this.listViewFtp.SelectedItems[0].Tag as FtpItem;
-            this.Ftp.Download(ftpItem, this.Local.Cwd, null);
+            if (this.listViewFtp.SelectedItems.Count == 1)
+            {
+                FtpItem ftpItem = this.listViewFtp.SelectedItems[0].Tag as FtpItem;
+                this.Ftp.Download(ftpItem, this.Local.Cwd, null);
+            }
         }
         private void LocalEventHandler(object sender, LocalEventArgs args)
         {
-            if (args.Type == LocalEventType.ListDirectory)
+            if (args.Type == LocalEventType.ListDirectory || args.Type == LocalEventType.DeleteFileOk ||
+                args.Type == LocalEventType.DeleteFolderOk || args.Type == LocalEventType.MakeDirectoryOk)
             {
                 this.Invoke(new Action(() => {
                     this.listViewLocal.Items.Clear();
@@ -103,9 +115,12 @@ namespace FtpClient
         }
         private void listViewLocal_DoubleClick(object sender, EventArgs e)
         {
-            LocalItem localItem = this.listViewLocal.SelectedItems[0].Tag as LocalItem;
-            if(localItem.Type == LocalItemType.Folder)
-                this.Local.Cwd.GetCwd(localItem.FullPath);
+            if (this.listViewLocal.SelectedItems.Count == 1)
+            {
+                LocalItem localItem = this.listViewLocal.SelectedItems[0].Tag as LocalItem;
+                if (localItem.Type == LocalItemType.Folder)
+                    this.Local.Cwd.GetCwd(localItem.FullPath);
+            }
         }
 
         private void FtpForm_Load(object sender, EventArgs e)
@@ -117,6 +132,25 @@ namespace FtpClient
         {
             if(!String.IsNullOrEmpty(this.Local.Cwd.Root))
                 this.Local.Cwd.GetCwd(this.Local.Cwd.Root);
+        }
+
+        private void buttonDeleteLocal_Click(object sender, EventArgs e)
+        {
+            if(this.listViewLocal.SelectedItems.Count == 1)
+            {
+                LocalItem localItem = this.listViewLocal.SelectedItems[0].Tag as LocalItem;
+                this.Local.Cwd.DeleteItem(localItem);
+            }
+        }
+
+        private void buttonGo_Click(object sender, EventArgs e)
+        {
+            this.Local.Cwd.GetCwd(this.Local.Cwd.FullPath);
+        }
+
+        private void buttonNewFolderLocal_Click(object sender, EventArgs e)
+        {
+            this.Local.Cwd.AddFolder();
         }
     }
 }

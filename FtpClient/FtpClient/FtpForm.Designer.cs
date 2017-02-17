@@ -48,12 +48,16 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonNewFolder = new System.Windows.Forms.Button();
+            this.groupBoxLocalOperations = new System.Windows.Forms.GroupBox();
+            this.buttonDeleteLocal = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.buttonOpen = new System.Windows.Forms.Button();
-            this.uttonGo = new System.Windows.Forms.Button();
+            this.buttonGo = new System.Windows.Forms.Button();
             this.buttonBack = new System.Windows.Forms.Button();
+            this.buttonNewFolderLocal = new System.Windows.Forms.Button();
             this.groupBoxCredentials.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.groupBoxLocalOperations.SuspendLayout();
             this.SuspendLayout();
             // 
             // listViewFtp
@@ -75,7 +79,7 @@
             // 
             // buttonDownload
             // 
-            this.buttonDownload.Location = new System.Drawing.Point(258, 51);
+            this.buttonDownload.Location = new System.Drawing.Point(138, 42);
             this.buttonDownload.Name = "buttonDownload";
             this.buttonDownload.Size = new System.Drawing.Size(97, 23);
             this.buttonDownload.TabIndex = 1;
@@ -85,7 +89,7 @@
             // 
             // buttonUpload
             // 
-            this.buttonUpload.Location = new System.Drawing.Point(258, 22);
+            this.buttonUpload.Location = new System.Drawing.Point(138, 17);
             this.buttonUpload.Name = "buttonUpload";
             this.buttonUpload.Size = new System.Drawing.Size(97, 23);
             this.buttonUpload.TabIndex = 2;
@@ -95,7 +99,7 @@
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Location = new System.Drawing.Point(138, 51);
+            this.buttonDelete.Location = new System.Drawing.Point(138, 67);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(97, 23);
             this.buttonDelete.TabIndex = 3;
@@ -105,7 +109,7 @@
             // 
             // buttonConnect
             // 
-            this.buttonConnect.Location = new System.Drawing.Point(19, 22);
+            this.buttonConnect.Location = new System.Drawing.Point(19, 17);
             this.buttonConnect.Name = "buttonConnect";
             this.buttonConnect.Size = new System.Drawing.Size(97, 23);
             this.buttonConnect.TabIndex = 4;
@@ -223,6 +227,7 @@
             this.groupBox1.Controls.Add(this.buttonUpload);
             this.groupBox1.Controls.Add(this.buttonConnect);
             this.groupBox1.Controls.Add(this.buttonDelete);
+            this.groupBox1.Controls.Add(this.groupBoxLocalOperations);
             this.groupBox1.Location = new System.Drawing.Point(392, 261);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(373, 100);
@@ -232,7 +237,7 @@
             // 
             // buttonRefresh
             // 
-            this.buttonRefresh.Location = new System.Drawing.Point(19, 51);
+            this.buttonRefresh.Location = new System.Drawing.Point(19, 42);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(97, 23);
             this.buttonRefresh.TabIndex = 6;
@@ -242,13 +247,34 @@
             // 
             // buttonNewFolder
             // 
-            this.buttonNewFolder.Location = new System.Drawing.Point(138, 22);
+            this.buttonNewFolder.Location = new System.Drawing.Point(19, 67);
             this.buttonNewFolder.Name = "buttonNewFolder";
             this.buttonNewFolder.Size = new System.Drawing.Size(97, 23);
             this.buttonNewFolder.TabIndex = 5;
             this.buttonNewFolder.Text = "New folder";
             this.buttonNewFolder.UseVisualStyleBackColor = true;
             this.buttonNewFolder.Click += new System.EventHandler(this.buttonNewFolder_Click);
+            // 
+            // groupBoxLocalOperations
+            // 
+            this.groupBoxLocalOperations.Controls.Add(this.buttonNewFolderLocal);
+            this.groupBoxLocalOperations.Controls.Add(this.buttonDeleteLocal);
+            this.groupBoxLocalOperations.Location = new System.Drawing.Point(247, 22);
+            this.groupBoxLocalOperations.Name = "groupBoxLocalOperations";
+            this.groupBoxLocalOperations.Size = new System.Drawing.Size(112, 72);
+            this.groupBoxLocalOperations.TabIndex = 9;
+            this.groupBoxLocalOperations.TabStop = false;
+            this.groupBoxLocalOperations.Text = "Local operations";
+            // 
+            // buttonDeleteLocal
+            // 
+            this.buttonDeleteLocal.Location = new System.Drawing.Point(6, 46);
+            this.buttonDeleteLocal.Name = "buttonDeleteLocal";
+            this.buttonDeleteLocal.Size = new System.Drawing.Size(97, 23);
+            this.buttonDeleteLocal.TabIndex = 7;
+            this.buttonDeleteLocal.Text = "Delete";
+            this.buttonDeleteLocal.UseVisualStyleBackColor = true;
+            this.buttonDeleteLocal.Click += new System.EventHandler(this.buttonDeleteLocal_Click);
             // 
             // statusStrip1
             // 
@@ -268,14 +294,15 @@
             this.buttonOpen.UseVisualStyleBackColor = true;
             this.buttonOpen.Click += new System.EventHandler(this.buttonCooseCwd_Click);
             // 
-            // uttonGo
+            // buttonGo
             // 
-            this.uttonGo.Location = new System.Drawing.Point(687, 239);
-            this.uttonGo.Name = "uttonGo";
-            this.uttonGo.Size = new System.Drawing.Size(29, 23);
-            this.uttonGo.TabIndex = 12;
-            this.uttonGo.Text = "Go";
-            this.uttonGo.UseVisualStyleBackColor = true;
+            this.buttonGo.Location = new System.Drawing.Point(687, 239);
+            this.buttonGo.Name = "buttonGo";
+            this.buttonGo.Size = new System.Drawing.Size(29, 23);
+            this.buttonGo.TabIndex = 12;
+            this.buttonGo.Text = "Go";
+            this.buttonGo.UseVisualStyleBackColor = true;
+            this.buttonGo.Click += new System.EventHandler(this.buttonGo_Click);
             // 
             // buttonBack
             // 
@@ -287,13 +314,23 @@
             this.buttonBack.UseVisualStyleBackColor = true;
             this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
+            // buttonNewFolderLocal
+            // 
+            this.buttonNewFolderLocal.Location = new System.Drawing.Point(6, 20);
+            this.buttonNewFolderLocal.Name = "buttonNewFolderLocal";
+            this.buttonNewFolderLocal.Size = new System.Drawing.Size(97, 23);
+            this.buttonNewFolderLocal.TabIndex = 10;
+            this.buttonNewFolderLocal.Text = "New folder";
+            this.buttonNewFolderLocal.UseVisualStyleBackColor = true;
+            this.buttonNewFolderLocal.Click += new System.EventHandler(this.buttonNewFolderLocal_Click);
+            // 
             // FtpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(777, 390);
             this.Controls.Add(this.buttonBack);
-            this.Controls.Add(this.uttonGo);
+            this.Controls.Add(this.buttonGo);
             this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.textBoxCwdLocal);
@@ -310,6 +347,7 @@
             this.groupBoxCredentials.ResumeLayout(false);
             this.groupBoxCredentials.PerformLayout();
             this.groupBox1.ResumeLayout(false);
+            this.groupBoxLocalOperations.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -339,8 +377,11 @@
         private System.Windows.Forms.Button buttonNewFolder;
         private System.Windows.Forms.Button buttonRefresh;
         private System.Windows.Forms.Button buttonOpen;
-        private System.Windows.Forms.Button uttonGo;
+        private System.Windows.Forms.Button buttonGo;
         private System.Windows.Forms.Button buttonBack;
+        private System.Windows.Forms.Button buttonDeleteLocal;
+        private System.Windows.Forms.GroupBox groupBoxLocalOperations;
+        private System.Windows.Forms.Button buttonNewFolderLocal;
     }
 }
 
