@@ -13,7 +13,7 @@ namespace FtpClient
     public enum LocalItemType { Folder, File, Cwd }
     public abstract class BaseItem
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public string FullPath { get; set; }
         public string Root { get; set; }
         public Nullable<DateTime> Timestamp { get; set; }
@@ -74,10 +74,16 @@ namespace FtpClient
     public class LocalCwd : LocalItem
     {
         public List<LocalItem> Items { get; private set; }
-        public LocalCwd(string name, string fullPath, string root) : base(LocalItemType.Cwd, name, fullPath, root,
-            null)
+        public event LocalEventHandler LocalEvent;
+        public LocalCwd(string fullPath) : base(LocalItemType.Cwd, null, fullPath, null, null)
         {
+            this.Name = Path.GetFileName(fullPath);
+            this.Root = Path.GetDirectoryName(fullPath);
             this.Items = new List<LocalItem>();
+        }
+        private void GetChildren()
+        {
+            this.Items.Clear();
             foreach (string itemFullPath in Directory.GetDirectories(this.FullPath))
             {
                 DateTime timestamp = Directory.GetLastWriteTime(itemFullPath);
@@ -91,5 +97,18 @@ namespace FtpClient
                 this.Items.Add(new LocalFile(fileName, itemFullPath, this.FullPath, timestamp));
             }
         }
+        public void GetCwd(string fullPath = null)
+        {
+            if(fullPath != null)
+            {
+                this.FullPath = fullPath;
+                this.Name = Path.GetFileName(fullPath);
+                this.Root = Path.GetDirectoryName(fullPath);
+            }
+            this.GetChildren();
+            if(this.LocalEvent!= null)
+                this.LocalEvent(this, new LocalEventArgs(LocalEventType.ListDirectory, this));
+        }
+
     }
 }

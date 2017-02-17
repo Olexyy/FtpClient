@@ -46,9 +46,10 @@
             this.textBoxCwdRemote = new System.Windows.Forms.TextBox();
             this.textBoxCwdLocal = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.buttonNewFolder = new System.Windows.Forms.Button();
             this.buttonRefresh = new System.Windows.Forms.Button();
+            this.buttonNewFolder = new System.Windows.Forms.Button();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.buttonCooseCwd = new System.Windows.Forms.Button();
             this.groupBoxCredentials.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -120,6 +121,7 @@
             this.listViewLocal.TabIndex = 5;
             this.listViewLocal.UseCompatibleStateImageBehavior = false;
             this.listViewLocal.View = System.Windows.Forms.View.Details;
+            this.listViewLocal.DoubleClick += new System.EventHandler(this.listViewLocal_DoubleClick);
             // 
             // columnFileName
             // 
@@ -207,7 +209,7 @@
             // 
             this.textBoxCwdLocal.Location = new System.Drawing.Point(392, 241);
             this.textBoxCwdLocal.Name = "textBoxCwdLocal";
-            this.textBoxCwdLocal.Size = new System.Drawing.Size(373, 20);
+            this.textBoxCwdLocal.Size = new System.Drawing.Size(292, 20);
             this.textBoxCwdLocal.TabIndex = 8;
             this.textBoxCwdLocal.Text = "C:\\\\";
             // 
@@ -226,13 +228,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Actions";
             // 
-            // statusStrip1
+            // buttonRefresh
             // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 368);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(777, 22);
-            this.statusStrip1.TabIndex = 10;
-            this.statusStrip1.Text = "statusStrip";
+            this.buttonRefresh.Location = new System.Drawing.Point(20, 63);
+            this.buttonRefresh.Name = "buttonRefresh";
+            this.buttonRefresh.Size = new System.Drawing.Size(97, 23);
+            this.buttonRefresh.TabIndex = 6;
+            this.buttonRefresh.Text = "Refresh";
+            this.buttonRefresh.UseVisualStyleBackColor = true;
+            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
             // 
             // buttonNewFolder
             // 
@@ -244,21 +248,30 @@
             this.buttonNewFolder.UseVisualStyleBackColor = true;
             this.buttonNewFolder.Click += new System.EventHandler(this.buttonNewFolder_Click);
             // 
-            // buttonRefresh
+            // statusStrip1
             // 
-            this.buttonRefresh.Location = new System.Drawing.Point(20, 63);
-            this.buttonRefresh.Name = "buttonRefresh";
-            this.buttonRefresh.Size = new System.Drawing.Size(97, 23);
-            this.buttonRefresh.TabIndex = 6;
-            this.buttonRefresh.Text = "Refresh";
-            this.buttonRefresh.UseVisualStyleBackColor = true;
-            this.buttonRefresh.Click += new System.EventHandler(this.buttonRefresh_Click);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 368);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(777, 22);
+            this.statusStrip1.TabIndex = 10;
+            this.statusStrip1.Text = "statusStrip";
+            // 
+            // buttonCooseCwd
+            // 
+            this.buttonCooseCwd.Location = new System.Drawing.Point(690, 239);
+            this.buttonCooseCwd.Name = "buttonCooseCwd";
+            this.buttonCooseCwd.Size = new System.Drawing.Size(75, 23);
+            this.buttonCooseCwd.TabIndex = 11;
+            this.buttonCooseCwd.Text = "choose cwd";
+            this.buttonCooseCwd.UseVisualStyleBackColor = true;
+            this.buttonCooseCwd.Click += new System.EventHandler(this.buttonCooseCwd_Click);
             // 
             // FtpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(777, 390);
+            this.Controls.Add(this.buttonCooseCwd);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.textBoxCwdLocal);
             this.Controls.Add(this.textBoxCwdRemote);
@@ -270,6 +283,7 @@
             this.Name = "FtpForm";
             this.ShowIcon = false;
             this.Text = "Ftp Client";
+            this.Load += new System.EventHandler(this.FtpForm_Load);
             this.groupBoxCredentials.ResumeLayout(false);
             this.groupBoxCredentials.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -301,6 +315,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Button buttonNewFolder;
         private System.Windows.Forms.Button buttonRefresh;
+        private System.Windows.Forms.Button buttonCooseCwd;
     }
 }
 

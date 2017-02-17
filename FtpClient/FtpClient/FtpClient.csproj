@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Local.cs" />
     <Compile Include="PatternComposite.cs" />
     <Compile Include="Ftp.cs" />
     <Compile Include="FtpForm.cs">
