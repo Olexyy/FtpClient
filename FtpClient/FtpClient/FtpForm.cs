@@ -110,7 +110,13 @@ namespace FtpClient
 
         private void FtpForm_Load(object sender, EventArgs e)
         {
-            this.Local = new Local(this.LocalEventHandler);
+            this.Local = new Local(this.textBoxCwdLocal.Text, this.LocalEventHandler);
+        }
+
+        private void buttonBack_Click(object sender, EventArgs e)
+        {
+            if(!String.IsNullOrEmpty(this.Local.Cwd.Root))
+                this.Local.Cwd.GetCwd(this.Local.Cwd.Root);
         }
     }
 }

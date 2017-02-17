@@ -23,9 +23,9 @@ namespace FtpClient
     public class Local
     {
         public LocalCwd Cwd { get; private set; }
-        public Local(LocalEventHandler eventHandler)
+        public Local(string root, LocalEventHandler eventHandler)
         {
-            this.Cwd = new LocalCwd(@"C:\");
+            this.Cwd = new LocalCwd(root);
             this.Cwd.LocalEvent += eventHandler;
             this.Cwd.GetCwd();
         }

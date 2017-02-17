@@ -49,7 +49,9 @@
             this.buttonRefresh = new System.Windows.Forms.Button();
             this.buttonNewFolder = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.buttonCooseCwd = new System.Windows.Forms.Button();
+            this.buttonOpen = new System.Windows.Forms.Button();
+            this.uttonGo = new System.Windows.Forms.Button();
+            this.buttonBack = new System.Windows.Forms.Button();
             this.groupBoxCredentials.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -73,7 +75,7 @@
             // 
             // buttonDownload
             // 
-            this.buttonDownload.Location = new System.Drawing.Point(259, 63);
+            this.buttonDownload.Location = new System.Drawing.Point(258, 51);
             this.buttonDownload.Name = "buttonDownload";
             this.buttonDownload.Size = new System.Drawing.Size(97, 23);
             this.buttonDownload.TabIndex = 1;
@@ -83,7 +85,7 @@
             // 
             // buttonUpload
             // 
-            this.buttonUpload.Location = new System.Drawing.Point(259, 22);
+            this.buttonUpload.Location = new System.Drawing.Point(258, 22);
             this.buttonUpload.Name = "buttonUpload";
             this.buttonUpload.Size = new System.Drawing.Size(97, 23);
             this.buttonUpload.TabIndex = 2;
@@ -93,7 +95,7 @@
             // 
             // buttonDelete
             // 
-            this.buttonDelete.Location = new System.Drawing.Point(139, 63);
+            this.buttonDelete.Location = new System.Drawing.Point(138, 51);
             this.buttonDelete.Name = "buttonDelete";
             this.buttonDelete.Size = new System.Drawing.Size(97, 23);
             this.buttonDelete.TabIndex = 3;
@@ -103,7 +105,7 @@
             // 
             // buttonConnect
             // 
-            this.buttonConnect.Location = new System.Drawing.Point(20, 22);
+            this.buttonConnect.Location = new System.Drawing.Point(19, 22);
             this.buttonConnect.Name = "buttonConnect";
             this.buttonConnect.Size = new System.Drawing.Size(97, 23);
             this.buttonConnect.TabIndex = 4;
@@ -207,11 +209,11 @@
             // 
             // textBoxCwdLocal
             // 
-            this.textBoxCwdLocal.Location = new System.Drawing.Point(392, 241);
+            this.textBoxCwdLocal.Location = new System.Drawing.Point(437, 241);
             this.textBoxCwdLocal.Name = "textBoxCwdLocal";
-            this.textBoxCwdLocal.Size = new System.Drawing.Size(292, 20);
+            this.textBoxCwdLocal.Size = new System.Drawing.Size(244, 20);
             this.textBoxCwdLocal.TabIndex = 8;
-            this.textBoxCwdLocal.Text = "C:\\\\";
+            this.textBoxCwdLocal.Text = "C:\\";
             // 
             // groupBox1
             // 
@@ -230,7 +232,7 @@
             // 
             // buttonRefresh
             // 
-            this.buttonRefresh.Location = new System.Drawing.Point(20, 63);
+            this.buttonRefresh.Location = new System.Drawing.Point(19, 51);
             this.buttonRefresh.Name = "buttonRefresh";
             this.buttonRefresh.Size = new System.Drawing.Size(97, 23);
             this.buttonRefresh.TabIndex = 6;
@@ -240,7 +242,7 @@
             // 
             // buttonNewFolder
             // 
-            this.buttonNewFolder.Location = new System.Drawing.Point(139, 22);
+            this.buttonNewFolder.Location = new System.Drawing.Point(138, 22);
             this.buttonNewFolder.Name = "buttonNewFolder";
             this.buttonNewFolder.Size = new System.Drawing.Size(97, 23);
             this.buttonNewFolder.TabIndex = 5;
@@ -256,22 +258,43 @@
             this.statusStrip1.TabIndex = 10;
             this.statusStrip1.Text = "statusStrip";
             // 
-            // buttonCooseCwd
+            // buttonOpen
             // 
-            this.buttonCooseCwd.Location = new System.Drawing.Point(690, 239);
-            this.buttonCooseCwd.Name = "buttonCooseCwd";
-            this.buttonCooseCwd.Size = new System.Drawing.Size(75, 23);
-            this.buttonCooseCwd.TabIndex = 11;
-            this.buttonCooseCwd.Text = "choose cwd";
-            this.buttonCooseCwd.UseVisualStyleBackColor = true;
-            this.buttonCooseCwd.Click += new System.EventHandler(this.buttonCooseCwd_Click);
+            this.buttonOpen.Location = new System.Drawing.Point(722, 239);
+            this.buttonOpen.Name = "buttonOpen";
+            this.buttonOpen.Size = new System.Drawing.Size(43, 23);
+            this.buttonOpen.TabIndex = 11;
+            this.buttonOpen.Text = "Open";
+            this.buttonOpen.UseVisualStyleBackColor = true;
+            this.buttonOpen.Click += new System.EventHandler(this.buttonCooseCwd_Click);
+            // 
+            // uttonGo
+            // 
+            this.uttonGo.Location = new System.Drawing.Point(687, 239);
+            this.uttonGo.Name = "uttonGo";
+            this.uttonGo.Size = new System.Drawing.Size(29, 23);
+            this.uttonGo.TabIndex = 12;
+            this.uttonGo.Text = "Go";
+            this.uttonGo.UseVisualStyleBackColor = true;
+            // 
+            // buttonBack
+            // 
+            this.buttonBack.Location = new System.Drawing.Point(391, 239);
+            this.buttonBack.Name = "buttonBack";
+            this.buttonBack.Size = new System.Drawing.Size(40, 23);
+            this.buttonBack.TabIndex = 13;
+            this.buttonBack.Text = "Back";
+            this.buttonBack.UseVisualStyleBackColor = true;
+            this.buttonBack.Click += new System.EventHandler(this.buttonBack_Click);
             // 
             // FtpForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(777, 390);
-            this.Controls.Add(this.buttonCooseCwd);
+            this.Controls.Add(this.buttonBack);
+            this.Controls.Add(this.uttonGo);
+            this.Controls.Add(this.buttonOpen);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.textBoxCwdLocal);
             this.Controls.Add(this.textBoxCwdRemote);
@@ -315,7 +338,9 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.Button buttonNewFolder;
         private System.Windows.Forms.Button buttonRefresh;
-        private System.Windows.Forms.Button buttonCooseCwd;
+        private System.Windows.Forms.Button buttonOpen;
+        private System.Windows.Forms.Button uttonGo;
+        private System.Windows.Forms.Button buttonBack;
     }
 }
 
